@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import * as Yup from "yup";
 import css from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsOps";
 
 const initialValues = {
   name: "",
@@ -26,17 +26,10 @@ const ContactForm = () => {
   const nameInputId = nanoid();
   const numberInpurId = nanoid();
 
-  const handleSubmit = (values, actions) => {
-    const newContact = {
-      id: nanoid(),
-      name: values.name,
-      number: values.number,
-    };
-
-    dispatch(addContact(newContact));
+  const handleSubmit = (value, actions) => {
+    dispatch(addContact(value));
     actions.resetForm();
   };
-
 
   return (
     <Formik
@@ -51,6 +44,7 @@ const ContactForm = () => {
             className={css.field}
             type="text"
             name="name"
+            id={nameInputId}
             placeholder="Oleksandr Somebody"
           />
           <span className={css.errorMsg}>
@@ -64,6 +58,7 @@ const ContactForm = () => {
             className={css.field}
             type="text"
             name="number"
+            id={numberInpurId}
             placeholder="777-55-66"
             pattern="[0-9]*"
             title="Only digits are allowed"
